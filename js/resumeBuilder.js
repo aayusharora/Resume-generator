@@ -10,9 +10,8 @@ var bio = {
     },
     "welcomeMessage": "Hey there! Welcome to the site",
     "skills": ["HTML5", "CSS3","AngularJS","JS", "NodeJS", "ExpressJS","SASS", "Gulp/Grunt", "Handlebars"],
-    "biopic": "https://avatars1.githubusercontent.com/u/12194719?v=3&u=f65aab52226b33abe59c5e5eaffd3e83a3649b04&s=140",
-    "display": "",
-    "contactHeader": ""
+    "biopic": "https://avatars1.githubusercontent.com/u/12194719?v=3&u=f65aab52226b33abe59c5e5eaffd3e83a3649b04&s=140"
+
 };
 
 var education = {
@@ -23,7 +22,7 @@ var education = {
             "degree": "Senior Secondary School",
             "majors": ["Maths", "Physics" ,"Chemistry","P.ED","English"],
             "dates": "April 2012 - April 2013",
-            "url": ""
+            "url": "http://kvmuzaffarnagar.edu.in/news.php"
         },
         {
             "name" : "JSS Academy Of Technical Education",
@@ -31,7 +30,7 @@ var education = {
             "degree": "B.Tech",
             "majors": ["DataStructures", "Database Management Systems","Networking"],
             "dates": "April 2013 - April 2017",
-            "url": ""
+            "url": "http://www.jssaten.ac.in/"
         }
     ],
     "onlineCourses" : [
@@ -39,18 +38,17 @@ var education = {
             "title" : "Introduction to Web development",
             "school": "edx",
             "dates": "March 20, 2015",
-            "url": ""
+            "url": "https://www.edx.org/micromasters/michiganx-user-experience-ux-research-and-design"
         },
 
         {
             "title" : "Frontend Dev",
             "school": "Coursera",
             "dates": "June 19, 2015",
-            "url": ""
+            "url": "https://www.edx.org/micromasters/michiganx-user-experience-ux-research-and-design"
         }
 
-    ],
-    "display": ""
+    ]
 
 };
 
@@ -71,9 +69,7 @@ var work = {
                 "description": " Worked as a frontend developer, applied technologies in development like NodeJS, handlebars etc."
             }
 
-        ],
-    "display": "",
-    "googleMaps": " "
+        ]
 };
 
 var projects = {
@@ -85,7 +81,7 @@ var projects = {
             "conferences and meetups by providing data in form of REST API " +
             "and JSON  ",
             "images": [
-                "","","",""
+                "images/12.png",""
             ]
         },
         {
@@ -93,12 +89,11 @@ var projects = {
             "dates": "23 Mar 2015",
             "description": " An Inter College Hackathon winning project ",
             "images": [
-                "","","",""
+                "images/6.png"
             ]
         }
 
-        ],
-    "display": ""
+        ]
 };
 
 bio.display = function() {
@@ -113,8 +108,9 @@ bio.display = function() {
         header = $("#header");
 
         bio.contactHeader($("#topContacts"));
+        bio.contactHeader($("#footerContacts"));
         header.prepend( modheaderRole);
-        header.prepend( modheaderName);
+        header.prepend(modheaderName);
         header.append( modbiopic);
         header.append(modwelcomeMsg);
         header.append(HTMLskillsStart);
@@ -123,14 +119,13 @@ bio.display = function() {
 
          skill = HTMLskills.replace("%data%", skill);
         $('#skills').append(skill);
-    })
+    });
 
 };
 
 bio.contactHeader= function(contactpos) {
 
-   //console.log(contactpos);
-    //console.log(typeof (contactpos));
+
    var  modcontactmobile = HTMLmobile.replace("%data%", bio.contacts.mobile),
         modcontactemail = HTMLemail.replace("%data%", bio.contacts.email),
         modcontactgithub =  HTMLgithub.replace("%data%", bio.contacts.github),
@@ -138,34 +133,34 @@ bio.contactHeader= function(contactpos) {
         modcontactlocation = HTMLlocation.replace("%data%", bio.contacts.location),
         topContacts = contactpos;
 
-    topContacts.append(modcontactmobile);
-    topContacts.append(modcontactemail);
-    topContacts.append(modcontactgithub);
-    topContacts.append(modcontacttwitter);
-    topContacts.append(modcontactlocation);
-}
+    topContacts.append(modcontactmobile, modcontactemail, modcontactgithub, modcontacttwitter, modcontactlocation);
+
+};
+
+work.googleMaps = function() {
+
+    $("#mapDiv").append(googleMap);
+
+};
 
 work.display = function () {
 
     $("#workExperience").append(HTMLworkStart);
     var workEntry = $(".work-entry");
 
-    for( var job in work.jobs) {
-        //console.log(work.jobs[job].employer);
-        var workEmployer =  HTMLworkEmployer.replace("%data%", work.jobs[job].employer),
-            workTitle =  HTMLworkTitle.replace("%data%", work.jobs[job].title),
-            workDates =  HTMLworkDates.replace("%data%", work.jobs[job].dates),
-            workDescription = HTMLworkDescription.replace("%data%", work.jobs[job].description ),
-            workLocation = HTMLworkLocation.replace("%data%", work.jobs[job].location);
+    work.jobs.forEach(function(job) {
+        //console.log(job.employer);
+        var workEmployer =  HTMLworkEmployer.replace("%data%", job.employer),
+            workTitle =  HTMLworkTitle.replace("%data%", job.title),
+            workDates =  HTMLworkDates.replace("%data%", job.dates),
+            workDescription = HTMLworkDescription.replace("%data%", job.description ),
+            workLocation = HTMLworkLocation.replace("%data%", job.location);
 
-            workEntry.append(workEmployer);
-            workEntry.append(workTitle);
-            workEntry.append(workDates);
-            workEntry.append(workLocation);
-            workEntry.append(workDescription);
+            workEntry.append(workEmployer, workTitle, workDates, workLocation, workDescription);
 
+    });
 
-    }
+    work.googleMaps();
     //var workentry =  HTMLworkEmployer.replace("%data%",);
 };
 
@@ -175,72 +170,61 @@ projects.display = function () {
 
     $("#projects").append(HTMLprojectStart);
 
-    for( var project in projects.projects) {
+    projects.projects.forEach(function(project) {
 
-        var projectTitle = HTMLprojectTitle.replace("%data%", projects.projects[project].title ),
-            projectDates = HTMLprojectDates .replace("%data%", projects.projects[project].dates),
-            projectDescription = HTMLprojectDescription.replace("%data%", projects.projects[project].description);
+        var projectTitle = HTMLprojectTitle.replace("%data%", project.title ),
+            projectDates = HTMLprojectDates .replace("%data%", project.dates),
+            projectDescription = HTMLprojectDescription.replace("%data%", project.description),
             projectEntry = $(".project-entry");
 
-            projectEntry.append(projectTitle);
-            projectEntry.append(projectDates);
-            projectEntry.append(projectDescription);
+        projectEntry.append(projectTitle, projectDates, projectDescription);
 
+        project.images.forEach(function(image) {
+            var imageContent = HTMLprojectImage.replace("%data%", image);
+            projectEntry.append(imageContent);
+        });
 
-
-    }
+    });
 
 };
 
 education.display = function () {
 
     $("#education").append(HTMLschoolStart);
+    var educationEntry = $(".education-entry");
 
+    education.schools.forEach(function (edu) {
 
+        console.log(edu.url);
+        HTMLschoolName.split(" ");
+        console.log(HTMLschoolName);
+        var schoolName=  HTMLschoolName.replace("%data%",edu.name),
+            date  =  HTMLschoolDates.replace("%data%", edu.dates),
+            degree =  HTMLschoolDegree.replace("%data%", edu.degree),
+            location = HTMLschoolLocation.replace("%data%", edu.location);
 
-    for( var edu in education.schools) {
+        educationEntry.append(schoolName, date, degree, location);
 
-        console.log(education.schools[edu]);
-
-        var schoolName=  HTMLschoolName.replace("%data%",education.schools[edu].name),
-            date  =  HTMLschoolDates.replace("%data%", education.schools[edu].dates),
-            degree =  HTMLschoolDegree.replace("%data%", education.schools[edu].degree),
-            location = HTMLschoolLocation.replace("%data%", education.schools[edu].location),
-
-            educationEntry = $(".education-entry");
-
-        educationEntry.append(schoolName);
-        educationEntry.append(date);
-        educationEntry.append(degree);
-        educationEntry.append(location);
-
-        education.schools[edu].majors.forEach(function(major){
+        edu.majors.forEach(function(major){
             //console.log(major);
             var majorsub = HTMLschoolMajor.replace("%data%", major);
             educationEntry.append(majorsub);
         });
-    }
+    });
 
     educationEntry.append(HTMLonlineClasses);
 
-    for( var edu in education.onlineCourses) {
+    education.onlineCourses.forEach (function(edu) {
 
-        var onlineTitle= HTMLonlineTitle.replace("%data%", education.onlineCourses[edu].title),
-            onlineSchool=   HTMLonlineSchool.replace("%data%", education.onlineCourses[edu].school),
-            onlineDates= HTMLonlineDates.replace("%data%", education.onlineCourses[edu].dates);
-            url= HTMLonlineURL.replace("%data%", education.onlineCourses[edu].url);
+        var onlineTitle= HTMLonlineTitle.replace("%data%", edu.title),
+            onlineSchool=   HTMLonlineSchool.replace("%data%", edu.school),
+            onlineDates= HTMLonlineDates.replace("%data%", edu.dates);
+            url= HTMLonlineURL.replace("%data%", edu.url);
 
-        educationEntry.append(onlineTitle);
-        educationEntry.append(onlineSchool);
-        educationEntry.append(onlineDates);
-        educationEntry.append(url);
+        educationEntry.append(onlineTitle, onlineSchool, onlineDates, url);
 
-    }
+    });
 
-};
-
-work.googleMaps = function() {
-    $("#mapDiv").append(googleMap);
 };
 
 
@@ -248,5 +232,4 @@ bio.display();
 work.display();
 projects.display();
 education.display();
-bio.contactHeader($("#footerContacts"));
-work.googleMaps();
+

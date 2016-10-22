@@ -217,3 +217,9 @@ span {
     display: block;
   }
 }
+
+.responsive {
+   width: 20vw;
+   min-width: 150px;
+   max-width: 300px;
+}
