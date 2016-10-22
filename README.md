@@ -20,6 +20,8 @@ The GitHub readme file.
 The resume has four distinct sections: work, education, projects and a header with biographical information. You’ll need to:
 
 1. Build four JSONs, each one representing a different resume section. The objects that you create need to follow the names within the schema below exactly. Make sure your JSONs are formatted correctly using <a href="http://jsonlint.com/" target="_blank">JSONlint.com</a>.
+2. Modify the JSONS in resumebuider.js inside js/ folder.
+3. Open the index.html file to see your resume.
 
 * `bio` contains:
         
